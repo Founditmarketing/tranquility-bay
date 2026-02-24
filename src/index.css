@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-resort-black: #0F172A;
+  --color-resort-green: #1B332F;
+  --color-resort-gold: #C69C6D;
+  --color-resort-mist: #F4F4F0;
+
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Manrope", sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-resort-mist);
+  color: var(--color-resort-black);
+  margin: 0;
+  padding: 0;
+}
