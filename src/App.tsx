@@ -11,6 +11,7 @@ import MobileHomeGallery from './pages/MobileHomeGallery';
 import MapPage from './pages/MapPage';
 import BookingWidget from './components/BookingWidget';
 import LoadingScreen from './components/LoadingScreen';
+import ScrollToTop from './components/ScrollToTop';
 
 function Home({ startAnimation }: { startAnimation: boolean }) {
   return (
@@ -36,6 +37,7 @@ export default function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <AnimatePresence mode="wait">
         {isLoading && (
           <LoadingScreen key="loader" onLoadingComplete={handleLoadingComplete} />
