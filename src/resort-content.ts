@@ -68,6 +68,7 @@ export const resortContent = {
                 category: "Quality Lodging",
                 description: "Experience rustic elegance with full amenities and private decks overlooking the water.",
                 image: "/tbaycabins.jpg",
+                bookingUrl: "https://v2.reservationkey.com/tranquilitybayresort/reserve/c"
             },
             {
                 id: 2,
@@ -75,6 +76,7 @@ export const resortContent = {
                 category: "Full Hookup",
                 description: "Concrete pads with 50-amp service, nestled between towering pines and the shoreline.",
                 image: "/tbayrvspotspic.png",
+                bookingUrl: "https://v2.reservationkey.com/tranquilitybayresort/112928/c"
             },
             {
                 id: 3,
@@ -82,6 +84,7 @@ export const resortContent = {
                 category: "Modern Stay",
                 description: "A retro-modern approach to lakeside living with all the comforts of home.",
                 image: "/tbaymobilehome.jpg",
+                bookingUrl: "https://v2.reservationkey.com/tranquilitybayresort/112929/c"
             },
         ]
     },
