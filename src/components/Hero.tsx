@@ -80,7 +80,7 @@ export default function Hero({ startAnimation = true }: HeroProps) {
           initial={{ opacity: 0, y: 50 }}
           animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="pt-64 mb-[40px] md:pt-0 md:mb-12 flex flex-col items-center"
+          className="pt-32 mb-[40px] md:pt-0 md:mb-12 flex flex-col items-center"
         >
           <span className="mb-4 block font-sans text-sm font-bold tracking-[0.2em] text-resort-gold uppercase">
             {hero.location}
@@ -101,7 +101,7 @@ export default function Hero({ startAnimation = true }: HeroProps) {
               <img
                 src="/tbaytransparentborderlogo.png"
                 alt="Tranquility Bay Logo"
-                className="w-60 h-auto object-contain drop-shadow-2xl"
+                className="w-48 h-auto object-contain drop-shadow-2xl"
               />
             </motion.div>
           </div>
