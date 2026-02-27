@@ -220,9 +220,9 @@ export default function Header({ show = true }: HeaderProps) {
             </motion.div>
           </div>
 
-          {/* Mobile Hamburger - Perfectly Centered in Header Height */}
+          {/* Mobile Hamburger - Corner Positioned */}
           <button
-            className={`md:hidden absolute right-2 top-1/2 -translate-y-1/2 z-[70] p-2 transition-colors duration-500 rounded-full ${isMobileMenuOpen ? 'text-white' : textColorClass} ${isScrolled || isMobileMenuOpen ? '' : 'bg-resort-black/20 backdrop-blur-sm'}`}
+            className={`md:hidden absolute right-2 top-2 z-[70] p-2 transition-colors duration-500 rounded-full ${isMobileMenuOpen ? 'text-white' : textColorClass} ${isScrolled || isMobileMenuOpen ? '' : 'bg-resort-black/20 backdrop-blur-sm'}`}
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >

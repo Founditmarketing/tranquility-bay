@@ -50,7 +50,7 @@ export default function Hero({ startAnimation = true }: HeroProps) {
   };
 
   return (
-    <div id="home" className="relative h-[110vh] min-h-[950px] md:h-screen md:min-h-[600px] w-full overflow-hidden bg-resort-black">
+    <div id="home" className="relative h-[100vh] min-h-[850px] md:h-screen md:min-h-[600px] w-full overflow-hidden bg-resort-black">
       {/* Background Images with Seamless Crossfade and Slow Zoom */}
       <AnimatePresence initial={false}>
         <motion.div
