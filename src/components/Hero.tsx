@@ -75,12 +75,12 @@ export default function Hero({ startAnimation = true }: HeroProps) {
       </AnimatePresence>
 
       {/* Hero Content & Availability Bar */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-end pb-[15px] md:justify-center md:pb-0 px-4 text-center">
+      <div className="relative z-10 flex h-full flex-col items-center justify-center pb-[30px] md:justify-center md:pb-0 px-4 text-center">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="pt-44 mb-[40px] md:pt-0 md:mb-12 flex flex-col items-center"
+          className="pt-64 mb-[40px] md:pt-0 md:mb-12 flex flex-col items-center"
         >
           <span className="mb-4 block font-sans text-sm font-bold tracking-[0.2em] text-resort-gold uppercase">
             {hero.location}
