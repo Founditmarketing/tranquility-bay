@@ -70,7 +70,7 @@ export default function Accommodations() {
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
 
         {/* Section Header */}
-        <div className="absolute left-8 top-12 z-10 max-w-sm md:left-20 md:top-24">
+        <div className="absolute left-8 top-6 z-10 max-w-sm md:left-20 md:top-24">
           <h2 className="font-serif text-4xl text-resort-black md:text-6xl">
             {accommodations.sectionTitle} <br />
             <span className="italic text-resort-green">{accommodations.sectionSubtitle}</span>
@@ -127,7 +127,7 @@ export default function Accommodations() {
         </motion.div>
 
         {/* Mobile Logo Accent - Positioned at bottom to fill gap */}
-        <div className="md:hidden absolute bottom-8 left-0 right-0 z-10 flex justify-center px-8">
+        <div className="md:hidden absolute bottom-4 left-0 right-0 z-10 flex justify-center px-8">
           <img
             src="/tbaytransparentlogo.png"
             alt="Resort Logo Accent"
