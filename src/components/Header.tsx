@@ -1,19 +1,43 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'motion/react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { resortContent } from '../resort-content';
 
-export default function Header() {
+interface HeaderProps {
+  show?: boolean;
+}
+
+export default function Header({ show = true }: HeaderProps) {
   const { header } = resortContent;
   const { scrollY } = useScroll();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const dropdownTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 50);
   });
 
   const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+  const handleMouseEnter = (label: string) => {
+    if (dropdownTimerRef.current) clearTimeout(dropdownTimerRef.current);
+    setActiveDropdown(label);
+  };
+
+  const handleMouseLeave = () => {
+    dropdownTimerRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 300);
+  };
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
 
   const menuVariants = {
     closed: {
@@ -42,51 +66,168 @@ export default function Header() {
       transition: {
         delay: 0.3 + (i * 0.1),
         duration: 0.4,
-        ease: "easeOut"
+        ease: [0.22, 1, 0.36, 1]
       }
     })
   };
 
+  const dropdownVariants = {
+    hidden: { opacity: 0, y: 4, pointerEvents: 'none' as const },
+    visible: {
+      opacity: 1,
+      y: 0,
+      pointerEvents: 'auto' as const,
+      transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
+
+  const isHomePage = location.pathname === '/';
+  const isLightPageRest = !isHomePage && !isScrolled && !isMobileMenuOpen;
+
+  const headerBgClass = isScrolled || isMobileMenuOpen ? 'bg-resort-black/90 backdrop-blur-md border-b border-white/10' : 'bg-transparent';
+  const textColorClass = isLightPageRest ? 'text-resort-black' : 'text-white/80';
+  const logoFilter = isLightPageRest ? 'invert-[0.1]' : 'none';
+
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-resort-black/80 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
-          }`}
+        className={`fixed top-0 left-0 right-0 z-[60] transition-colors duration-500 ${headerBgClass}`}
         initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        animate={show ? {
+          y: 0,
+          height: isScrolled ? "80px" : (window.innerWidth < 768 ? "100px" : "160px")
+        } : { y: -100 }}
+        transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer z-50">
-            <span className="font-serif text-2xl italic text-white">{header.brandName}</span>
+        <div className="w-full px-4 md:px-12 h-full flex items-center justify-between relative">
+          {/* Left Column: Logo - Hidden on Mobile */}
+          <div className="flex-1 flex justify-start">
+            <Link to="/" className={`hidden md:block cursor-pointer z-50 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+              <motion.img
+                src="/tbaytransparentborderlogo.png"
+                alt={header.brandName}
+                animate={{
+                  height: isScrolled ? "40px" : (window.innerWidth < 768 ? "85px" : "112px"),
+                  filter: logoFilter
+                }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="w-auto object-contain"
+              />
+            </Link>
           </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {header.navLinks.map((item) => (
-              <a key={item.label} href={item.href} className="font-sans text-xs font-bold uppercase tracking-widest text-white/80 hover:text-resort-gold transition-colors">
-                {item.label}
+          {/* Center Column: Desktop Nav */}
+          <div className="flex-[3] hidden md:flex justify-center h-full">
+            <motion.nav
+              animate={{
+                y: isScrolled ? 0 : -20
+              }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="flex items-center gap-6 lg:gap-8 h-full"
+            >
+              {header.navLinks.map((item) => (
+                <div
+                  key={item.label}
+                  className="relative h-full flex items-center"
+                  onMouseEnter={() => item.subLinks && handleMouseEnter(item.label)}
+                  onMouseLeave={() => item.subLinks && handleMouseLeave()}
+                >
+                  {item.href.startsWith('http') ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center gap-1 font-sans text-[10px] lg:text-xs font-bold uppercase tracking-widest hover:text-resort-gold transition-colors whitespace-nowrap ${textColorClass}`}
+                    >
+                      {item.label}
+                      {item.subLinks && <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === item.label ? 'rotate-180' : ''}`} />}
+                    </a>
+                  ) : item.href.startsWith('#') || (item.href.startsWith('/#') && location.pathname === '/') ? (
+                    <a
+                      href={item.href.startsWith('/#') ? item.href.substring(1) : item.href}
+                      className={`inline-flex items-center gap-1 font-sans text-[10px] lg:text-xs font-bold uppercase tracking-widest hover:text-resort-gold transition-colors whitespace-nowrap ${textColorClass}`}
+                    >
+                      {item.label}
+                      {item.subLinks && <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === item.label ? 'rotate-180' : ''}`} />}
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      className={`inline-flex items-center gap-1 font-sans text-[10px] lg:text-xs font-bold uppercase tracking-widest hover:text-resort-gold transition-colors whitespace-nowrap ${textColorClass}`}
+                    >
+                      {item.label}
+                      {item.subLinks && <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === item.label ? 'rotate-180' : ''}`} />}
+                    </Link>
+                  )}
+
+                  {/* Dropdown Menu */}
+                  {item.subLinks && (
+                    <motion.div
+                      initial="hidden"
+                      animate={activeDropdown === item.label ? "visible" : "hidden"}
+                      variants={dropdownVariants}
+                      className={`absolute left-1/2 -translate-x-1/2 pt-10 min-w-[200px] transition-[top] duration-500`}
+                      style={{ top: isScrolled ? '40px' : '70px' }}
+                    >
+                      <div className="bg-resort-black/95 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden shadow-2xl">
+                        {item.subLinks.map((sub) => (
+                          sub.external ? (
+                            <a
+                              key={sub.label}
+                              href={sub.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/70 hover:text-resort-gold hover:bg-white/5 transition-all border-b border-white/5 last:border-0"
+                            >
+                              {sub.label}
+                            </a>
+                          ) : (
+                            <Link
+                              key={sub.label}
+                              to={sub.href}
+                              className="block px-6 py-4 text-[10px] font-bold uppercase tracking-widest text-white/70 hover:text-resort-gold hover:bg-white/5 transition-all border-b border-white/5 last:border-0"
+                              onClick={() => setActiveDropdown(null)}
+                            >
+                              {sub.label}
+                            </Link>
+                          )
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              ))}
+            </motion.nav>
+          </div>
+
+          {/* Right Column: Actions */}
+          <div className="flex-1 flex justify-end items-center">
+            <motion.div
+              animate={{
+                y: isScrolled ? 0 : -20
+              }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="hidden md:flex items-center gap-4 z-50"
+            >
+              <a
+                href={resortContent.bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-resort-gold text-resort-gold hover:bg-resort-gold hover:text-resort-black transition-colors px-6 py-2 rounded-full font-sans text-xs font-bold uppercase tracking-widest text-center"
+              >
+                {header.bookButtonText}
               </a>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-4 z-50">
-            <a
-              href={resortContent.bookingUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:block border border-resort-gold text-resort-gold hover:bg-resort-gold hover:text-resort-black transition-colors px-6 py-2 rounded-full font-sans text-xs font-bold uppercase tracking-widest text-center"
-            >
-              {header.bookButtonText}
-            </a>
-            <button
-              className="md:hidden text-white p-2"
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            </motion.div>
           </div>
+
+          {/* Mobile Hamburger - Perfectly Centered in Header Height */}
+          <button
+            className={`md:hidden absolute right-2 top-1/2 -translate-y-1/2 z-[70] p-2 transition-colors duration-500 rounded-full ${isMobileMenuOpen ? 'text-white' : textColorClass} ${isScrolled || isMobileMenuOpen ? '' : 'bg-resort-black/20 backdrop-blur-sm'}`}
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </motion.header>
 
@@ -98,28 +239,65 @@ export default function Header() {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="fixed inset-0 z-40 bg-resort-black flex flex-col items-center justify-center md:hidden"
+            className="fixed inset-0 z-40 bg-resort-black flex flex-col pt-32 pb-12 md:hidden overflow-y-auto"
           >
-            <nav className="flex flex-col items-center gap-8">
+            <nav className="flex flex-col w-full h-full">
               {header.navLinks.map((item, i) => (
-                <motion.a
-                  key={item.label}
-                  custom={i}
-                  variants={linkVariants}
-                  href={item.href}
-                  onClick={toggleMenu}
-                  className="font-serif text-4xl text-white hover:text-resort-gold transition-colors italic"
-                >
-                  {item.label}
-                </motion.a>
+                <div key={item.label} className="w-full border-b border-white/5 last:border-0">
+                  {item.href.startsWith('http') ? (
+                    <motion.a
+                      custom={i}
+                      variants={linkVariants}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between w-full px-8 py-6 font-serif text-3xl text-white hover:text-resort-gold hover:bg-white/5 transition-all italic"
+                    >
+                      {item.label}
+                      <span className="text-resort-gold/30 text-sm not-italic opacity-0 group-hover:opacity-100 transition-opacity">Explore</span>
+                    </motion.a>
+                  ) : (
+                    <motion.div
+                      custom={i}
+                      variants={linkVariants}
+                      className="w-full"
+                    >
+                      <Link
+                        to={item.href}
+                        onClick={toggleMenu}
+                        className="flex items-center justify-between w-full px-8 py-6 font-serif text-3xl text-white hover:text-resort-gold hover:bg-white/5 transition-all italic"
+                      >
+                        {item.label}
+                        <ChevronDown size={20} className="text-resort-gold/30 -rotate-90" />
+                      </Link>
+                    </motion.div>
+                  )}
+                </div>
               ))}
-              <motion.button
-                custom={header.navLinks.length}
-                variants={linkVariants}
-                className="mt-8 bg-resort-gold text-resort-black px-8 py-3 rounded-full font-sans text-sm font-bold uppercase tracking-widest"
-              >
-                {header.bookButtonText}
-              </motion.button>
+
+              <div className="mt-auto px-8 pt-12">
+                <motion.a
+                  custom={header.navLinks.length}
+                  variants={linkVariants}
+                  href={resortContent.bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full h-16 items-center justify-center bg-resort-gold text-resort-black rounded-xl font-sans text-sm font-bold uppercase tracking-widest text-center shadow-lg shadow-resort-gold/10"
+                >
+                  {header.bookButtonText}
+                </motion.a>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1 }}
+                  className="mt-8 text-center"
+                >
+                  <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-white/30">
+                    Toledo Bend Reservoir, Louisiana
+                  </p>
+                </motion.div>
+              </div>
             </nav>
           </motion.div>
         )}
@@ -127,4 +305,3 @@ export default function Header() {
     </>
   );
 }
-

@@ -9,8 +9,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
 
         {/* Brand */}
-        <div className="md:col-span-1">
-          <h2 className="font-serif text-3xl italic text-white mb-4">{footer.brandName}</h2>
+        <div id="about" className="md:col-span-1">
+          <img
+            src="/tbaytransparentborderlogo.png"
+            alt={footer.brandName}
+            className="h-20 w-auto object-contain mb-6"
+          />
+          <h2 className="font-serif text-3xl italic text-white mb-4 hidden">{footer.brandName}</h2>
           <p className="font-sans text-sm text-white/60 leading-relaxed mb-6">
             {footer.brandDescription}
           </p>
@@ -33,10 +38,10 @@ export default function Footer() {
         </div>
 
         {/* Contact */}
-        <div>
+        <div id="contact" className="">
           <h3 className="font-sans text-xs font-bold tracking-[0.2em] text-resort-gold uppercase mb-6">Contact</h3>
           <ul className="space-y-4 font-sans text-sm text-white/70">
-            <li className="flex items-start gap-3">
+            <li id="map" className="flex items-start gap-3">
               <MapPin size={16} className="text-resort-gold shrink-0 mt-0.5" />
               <span>{footer.contact.address.split(', ').map((line, i) => (
                 <span key={i}>{line}{i === 0 && <br />}</span>
