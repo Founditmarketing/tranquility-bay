@@ -50,7 +50,7 @@ export default function Hero({ startAnimation = true }: HeroProps) {
   };
 
   return (
-    <div id="home" className="relative h-[85vh] min-h-[600px] md:h-screen w-full overflow-hidden bg-resort-black">
+    <div id="home" className="relative h-[110vh] min-h-[950px] md:h-screen md:min-h-[600px] w-full overflow-hidden bg-resort-black">
       {/* Background Images with Seamless Crossfade and Slow Zoom */}
       <AnimatePresence initial={false}>
         <motion.div
@@ -101,7 +101,7 @@ export default function Hero({ startAnimation = true }: HeroProps) {
               <img
                 src="/tbaytransparentborderlogo.png"
                 alt="Tranquility Bay Logo"
-                className="w-72 h-auto object-contain drop-shadow-2xl"
+                className="w-60 h-auto object-contain drop-shadow-2xl"
               />
             </motion.div>
           </div>
