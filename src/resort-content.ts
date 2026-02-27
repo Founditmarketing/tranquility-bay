@@ -60,7 +60,8 @@ export const resortContent = {
     accommodations: {
         sectionTitle: "Choose Your",
         sectionSubtitle: "Stay",
-        description: "From cozy cabins to spacious RV spots, find your perfect space.",
+        description: "From quality cabins to premium RV spots.",
+        descriptionDesktop: "From quality cabins to spacious RV spots, find your perfect space and experience the ultimate sanctuary on the shores of Toledo Bend reservoir.",
         items: [
             {
                 id: 1,

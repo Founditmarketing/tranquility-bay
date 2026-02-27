@@ -124,20 +124,30 @@ export default function Header({ show = true }: HeaderProps) {
             </AnimatePresence>
           </div>
 
-          {/* Desktop Logo */}
+          {/* Desktop Logo on Scroll */}
           <div className="hidden md:flex flex-1 justify-start">
-            <Link to="/" className={`cursor-pointer z-50 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-              <motion.img
-                src="/tbaytransparentborderlogo.png"
-                alt={header.brandName}
-                animate={{
-                  height: isScrolled ? "40px" : "112px",
-                  filter: logoFilter
-                }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="w-auto object-contain"
-              />
-            </Link>
+            <AnimatePresence>
+              {isScrolled && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                >
+                  <Link to="/" className="cursor-pointer">
+                    <img
+                      src="/tbaytransparentborderlogo.png"
+                      alt={header.brandName}
+                      style={{
+                        filter: logoFilter,
+                        height: "56px"
+                      }}
+                      className="w-auto object-contain"
+                    />
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Center Column: Desktop Nav */}

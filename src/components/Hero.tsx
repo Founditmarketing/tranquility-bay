@@ -25,7 +25,7 @@ export default function Hero({ startAnimation = true }: HeroProps) {
   const { scrollY } = useScroll();
 
   // Logo fades out quickly as we scroll (from 0 to 100px)
-  const logoOpacity = useTransform(scrollY, [0, 100], [1, 0]);
+  const logoOpacity = useTransform(scrollY, [0, 100], [0.85, 0]);
   const logoScale = useTransform(scrollY, [0, 100], [1, 0.95]);
 
   useEffect(() => {
@@ -79,29 +79,27 @@ export default function Hero({ startAnimation = true }: HeroProps) {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          style={{ opacity: logoOpacity }}
+          transition={{ duration: 1.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="pt-32 mb-[40px] md:pt-0 md:mb-12 flex flex-col items-center"
         >
           <span className="mb-4 block font-sans text-sm font-bold tracking-[0.2em] text-resort-gold uppercase">
             {hero.location}
           </span>
 
-          {/* Mobile Logo vs Desktop Title */}
+          {/* Branded Logo with Scroll Fade - Universal */}
           <div className="relative w-full flex justify-center items-center">
-            {/* Desktop Title */}
-            <h1 className="hidden md:block font-serif text-5xl font-light italic text-white md:text-7xl lg:text-8xl">
-              {hero.title}
-            </h1>
-
-            {/* Mobile Logo with Scroll Fade */}
             <motion.div
-              style={{ opacity: logoOpacity, scale: logoScale }}
-              className="md:hidden flex justify-center"
+              initial={{ opacity: 0 }}
+              animate={startAnimation ? { opacity: 1 } : { opacity: 0 }}
+              style={{ scale: logoScale }}
+              transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+              className="flex justify-center"
             >
               <img
                 src="/tbaytransparentborderlogo.png"
                 alt="Tranquility Bay Logo"
-                className="w-48 h-auto object-contain drop-shadow-2xl"
+                className="w-52 h-auto object-contain drop-shadow-2xl md:w-[450px]"
               />
             </motion.div>
           </div>

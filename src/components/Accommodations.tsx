@@ -63,22 +63,33 @@ export default function Accommodations() {
     // Desktop: 4 items total, pl-[40vw], move enough to get through them
     return `${1 - latest * 56}%`;
   });
+
   const logoOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+  // Header fades out as horizontal scroll begins
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
 
   return (
     <section ref={targetRef} id="stay" className="relative h-[200vh] md:h-[300vh] bg-resort-mist">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
 
         {/* Section Header */}
-        <div className="absolute left-8 top-10 z-10 max-w-2xl md:left-20 md:top-28">
+        <motion.div
+          style={{ opacity: headerOpacity }}
+          className="absolute left-8 top-10 z-10 max-w-2xl md:left-20 md:top-28"
+        >
           <h2 className="font-serif text-5xl text-resort-black md:text-7xl whitespace-nowrap">
             {accommodations.sectionTitle} <span className="italic text-resort-green">{accommodations.sectionSubtitle}</span>
           </h2>
-          <p className="mt-2 font-sans text-resort-black/60 text-sm pr-12 md:mt-4 md:text-base md:pr-0 hidden md:block">
+          {/* Responsive Descriptions */}
+          <p className="mt-1 font-sans text-resort-black/60 text-sm md:hidden">
             {accommodations.description}
           </p>
+          <p className="hidden md:block mt-4 font-sans text-resort-black/60 text-lg pr-24">
+            {/* @ts-ignore - Adding descriptionDesktop to resort-content later */}
+            {accommodations.descriptionDesktop || accommodations.description}
+          </p>
 
-          {/* Floating Logo - Fades on Scroll */}
+          {/* Floating Logo - Fades as well since it's inside or via logoOpacity */}
           <motion.div
             style={{ opacity: logoOpacity }}
             className="mt-8 md:mt-12 hidden md:block"
@@ -89,7 +100,7 @@ export default function Accommodations() {
               className="w-[280px] md:w-[500px] h-auto object-contain pointer-events-none"
             />
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Horizontal Moving Track */}
         <motion.div style={{ x: xResponsive }} className="flex gap-8 pl-[9vw] md:gap-16 md:pl-[40vw]">
