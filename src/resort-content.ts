@@ -58,8 +58,8 @@ export const resortContent = {
         }
     },
     accommodations: {
-        sectionTitle: "Curated",
-        sectionSubtitle: "Accommodations",
+        sectionTitle: "Choose Your",
+        sectionSubtitle: "Stay",
         description: "From cozy cabins to spacious RV spots, find your perfect space.",
         items: [
             {

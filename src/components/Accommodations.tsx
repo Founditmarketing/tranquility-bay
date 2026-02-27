@@ -70,12 +70,11 @@ export default function Accommodations() {
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
 
         {/* Section Header */}
-        <div className="absolute left-8 top-6 z-10 max-w-sm md:left-20 md:top-24">
-          <h2 className="font-serif text-4xl text-resort-black md:text-6xl">
-            {accommodations.sectionTitle} <br />
-            <span className="italic text-resort-green">{accommodations.sectionSubtitle}</span>
+        <div className="absolute left-8 top-10 z-10 max-w-2xl md:left-20 md:top-28">
+          <h2 className="font-serif text-5xl text-resort-black md:text-7xl whitespace-nowrap">
+            {accommodations.sectionTitle} <span className="italic text-resort-green">{accommodations.sectionSubtitle}</span>
           </h2>
-          <p className="mt-2 font-sans text-resort-black/60 text-sm pr-12 md:mt-4 md:text-base md:pr-0">
+          <p className="mt-2 font-sans text-resort-black/60 text-sm pr-12 md:mt-4 md:text-base md:pr-0 hidden md:block">
             {accommodations.description}
           </p>
 
