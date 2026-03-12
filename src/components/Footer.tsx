@@ -24,25 +24,13 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Navigation */}
-        <div>
-          <h3 className="font-sans text-xs font-bold tracking-[0.2em] text-resort-gold uppercase mb-6">Explore</h3>
-          <ul className="space-y-4 font-sans text-sm text-white/70">
-            {header.navLinks.map((item) => (
-              <li key={item.label}>
-                <a href={item.href} className="hover:text-white transition-colors">{item.label}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
         {/* Contact */}
-        <div id="contact" className="">
+        <div id="contact" className="md:col-span-1">
           <h3 className="font-sans text-xs font-bold tracking-[0.2em] text-resort-gold uppercase mb-6">Contact</h3>
           <ul className="space-y-4 font-sans text-sm text-white/70">
             <li id="map" className="flex items-start gap-3">
               <MapPin size={16} className="text-resort-gold shrink-0 mt-0.5" />
-              <span>{footer.contact.address.split(', ').map((line, i) => (
+              <span>{footer.contact.address.split(', ').map((line: string, i: number) => (
                 <span key={i}>{line}{i === 0 && <br />}</span>
               ))}</span>
             </li>
@@ -57,22 +45,18 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Newsletter */}
-        <div>
-          <h3 className="font-sans text-xs font-bold tracking-[0.2em] text-resort-gold uppercase mb-6">{footer.newsletter.title}</h3>
-          <p className="font-sans text-sm text-white/60 mb-4">
-            {footer.newsletter.description}
-          </p>
-          <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="bg-white/5 border border-white/10 rounded-none px-4 py-3 font-sans text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-resort-gold transition-colors"
-            />
-            <button className="bg-resort-gold text-resort-black font-sans text-xs font-bold tracking-widest uppercase py-3 hover:bg-white transition-colors">
-              {footer.newsletter.buttonText}
-            </button>
-          </form>
+        {/* Location Map */}
+        <div className="md:col-span-2 h-64 md:h-full min-h-[250px] relative overflow-hidden border border-white/10">
+          <iframe 
+            src="https://maps.google.com/maps?q=Tranquility+Bay+Resort,+123+Tranquility+Lane,+Zwolle,+LA+71486&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+            width="100%" 
+            height="100%" 
+            style={{ border: 0, position: 'absolute', top: 0, left: 0 }} 
+            allowFullScreen 
+            loading="lazy" 
+            title="Tranquility Bay Location"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>
 
       </div>
