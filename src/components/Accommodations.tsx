@@ -1,5 +1,6 @@
 import { motion, useTransform, useScroll } from "motion/react";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { resortContent } from "../resort-content";
 
 const Card = ({ item }: { item: typeof resortContent.accommodations.items[0] }) => {
@@ -29,14 +30,24 @@ const Card = ({ item }: { item: typeof resortContent.accommodations.items[0] }) 
         <p className="mt-4 max-w-xs font-sans text-sm font-light leading-relaxed text-white/80 opacity-100 md:opacity-0 transition-opacity duration-500 md:group-hover:opacity-100">
           {item.description}
         </p>
-        <a
-          href={item.bookingUrl || resortContent.bookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-block border-b border-resort-gold pb-1 font-sans text-xs font-bold tracking-widest text-white uppercase opacity-100 md:opacity-0 transition-opacity delay-100 duration-500 md:group-hover:opacity-100"
-        >
-          Check Rates
-        </a>
+        <div className="mt-6 flex flex-wrap gap-6 opacity-100 md:opacity-0 transition-opacity delay-100 duration-500 md:group-hover:opacity-100">
+          {(item as any).galleryUrl && (
+             <Link
+               to={(item as any).galleryUrl}
+               className="inline-block border-b border-white pb-1 font-sans text-xs font-bold tracking-widest text-white uppercase hover:text-resort-gold hover:border-resort-gold transition-colors"
+             >
+               Take A Look
+             </Link>
+          )}
+          <a
+            href={item.bookingUrl || resortContent.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block border-b border-resort-gold pb-1 font-sans text-xs font-bold tracking-widest text-resort-gold uppercase hover:text-white hover:border-white transition-colors"
+          >
+            Check Rates
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -57,7 +68,7 @@ export default function Accommodations() {
     if (isMobile) {
       const cardWidth = window.innerWidth * 0.82;
       const gap = 32;
-      const totalMove = (cardWidth + gap) * 2;
+      const totalMove = (cardWidth + gap) * 3;
       return `-${latest * totalMove}px`;
     }
     // Desktop: 4 items total, pl-[40vw], move enough to get through them
