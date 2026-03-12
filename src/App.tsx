@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -8,6 +8,7 @@ import Amenities from './components/Amenities';
 import Footer from './components/Footer';
 import CabinGallery from './pages/CabinGallery';
 import MobileHomeGallery from './pages/MobileHomeGallery';
+import RVSportGallery from './pages/RVSportGallery';
 import MapPage from './pages/MapPage';
 import BookingWidget from './components/BookingWidget';
 import LoadingScreen from './components/LoadingScreen';
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/" element={<Home startAnimation={showContent} />} />
           <Route path="/cabins/gallery" element={<CabinGallery />} />
           <Route path="/mobile-homes/gallery" element={<MobileHomeGallery />} />
+          <Route path="/rv-spots/gallery" element={<RVSportGallery />} />
           <Route path="/map" element={<MapPage />} />
         </Routes>
         <Footer />

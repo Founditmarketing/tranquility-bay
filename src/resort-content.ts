@@ -28,6 +28,7 @@ export const resortContent = {
                 label: "RV Spots",
                 href: "/#rv-spots",
                 subLinks: [
+                    { label: "Take A Look", href: "/rv-spots/gallery" },
                     { label: "View All", href: "https://v2.reservationkey.com/tranquilitybayresort/112928", external: true },
                     { label: "Reserve Now", href: "https://v2.reservationkey.com/tranquilitybayresort/112928/c", external: true },
                 ]
