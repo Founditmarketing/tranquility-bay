@@ -33,13 +33,6 @@ export const resortContent = {
                     { label: "Reserve Now", href: "https://v2.reservationkey.com/tranquilitybayresort/112928/c", external: true },
                 ]
             },
-            {
-                label: "Rentals",
-                href: "/#rentals",
-                subLinks: [
-                    { label: "Golf Carts", href: "https://v2.reservationkey.com/tranquilitybayresort/112974", external: true },
-                ]
-            },
             { label: "Map", href: "/map" },
             { label: "About", href: "/#about" },
             { label: "Contact", href: "/#contact" },
