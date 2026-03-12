@@ -12,8 +12,11 @@ export default function MobileHomeGallery() {
     const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
     return (
-        <div className="min-h-screen bg-resort-mist pt-32 pb-24 px-6 md:px-12">
-            <div className="max-w-7xl mx-auto">
+        <div 
+            className="min-h-screen pt-32 pb-24 px-6 md:px-12 bg-cover bg-center bg-fixed"
+            style={{ backgroundImage: "url('/sandy_beach_background.png')" }}
+        >
+            <div className="max-w-7xl mx-auto bg-white/40 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-xl">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <div>
