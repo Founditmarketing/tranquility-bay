@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import CabinGallery from './pages/CabinGallery';
 import MobileHomeGallery from './pages/MobileHomeGallery';
 import RVSportGallery from './pages/RVSportGallery';
+import AboutPage from './pages/AboutPage';
 import MapPage from './pages/MapPage';
 import BookingWidget from './components/BookingWidget';
 import LoadingScreen from './components/LoadingScreen';
@@ -49,6 +50,7 @@ export default function App() {
         <Header show={showContent} />
         <Routes>
           <Route path="/" element={<Home startAnimation={showContent} />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/cabins/gallery" element={<CabinGallery />} />
           <Route path="/mobile-homes/gallery" element={<MobileHomeGallery />} />
           <Route path="/rv-spots/gallery" element={<RVSportGallery />} />

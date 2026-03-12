@@ -34,7 +34,7 @@ export const resortContent = {
                 ]
             },
             { label: "Map", href: "/map" },
-            { label: "About", href: "/#about" },
+            { label: "About", href: "/about" },
             { label: "Contact", href: "/#contact" },
         ],
         bookButtonText: "Book Now",
@@ -116,6 +116,22 @@ export const resortContent = {
                 span: "md:col-span-2 md:row-span-1",
             }
         ]
+    },
+    about: {
+        title: "About Tranquility Bay",
+        subtitle: "A Legacy on the Lake",
+        paragraphs: [
+            "Tranquility Bay Resort is situated in the most coveted location on Toledo Bend. Positioned mid-lake, our sanctuary puts you just minutes away from world-class golf courses, convenient supermarkets, local banks, and charming stores. For those seeking an evening of entertainment, the casinos are only about an hour's scenic drive away.",
+            "Our journey began in June of 2006. Since then, we have grown steadily, adding a massive 5,400-foot seawall and 17 acres of beautifully reclaimed land to form the foundation of this premier resort.",
+            "Whether you're looking for the best RV camping on the lake, a comfortable stay in our rustic cabins, or a cozy retreat in one of our mobile homes, our incredible amenities are designed to make your stay truly unforgettable. Explore our exciting new facilities—built for you, your family, your friends, and even corporate retreats."
+        ],
+        features: [
+            "Fishing Piers & Docks",
+            "Paved Boat Launch",
+            "Fish Cleaning Stations & MORE"
+        ],
+        heroImage: "https://images.unsplash.com/photo-1542718610-a1a65667a9a9?q=80&w=2070&auto=format&fit=crop", // Using a scenic unsplash image as a placeholder for the hero section
+        secondaryImage: "/tbaycabins.jpg"
     },
     footer: {
         brandName: "Tranquility Bay",
