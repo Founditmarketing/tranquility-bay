@@ -35,7 +35,6 @@ export const resortContent = {
             },
             { label: "Map", href: "/map" },
             { label: "About", href: "/about" },
-            { label: "Contact", href: "/#contact" },
         ],
         bookButtonText: "Book Now",
     },
