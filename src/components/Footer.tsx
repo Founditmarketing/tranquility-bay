@@ -21,7 +21,7 @@ export default function Footer() {
           </p>
           <div className="flex gap-4 text-resort-gold">
             <a href="#" className="hover:text-white transition-colors"><Instagram size={20} /></a>
-            <a href="#" className="hover:text-white transition-colors"><Facebook size={20} /></a>
+            <a href="https://www.facebook.com/TranquilityBayMarineandResortonToledoBend/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Facebook size={20} /></a>
           </div>
         </div>
 
