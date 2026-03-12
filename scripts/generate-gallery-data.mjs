@@ -7,14 +7,8 @@ const OUTPUT_FILE = path.join(process.cwd(), 'src', 'data', 'cabin-galleries.jso
 // Helper to check if a folder name looks like a cabin directory
 const isCabinDir = (name) => {
     const lower = name.toLowerCase();
-    // Match "Cabin", "RV", "Trailer", "Site", "Scenary", "Extra", "OFFICE" from the public directory
-    return lower.includes('cabin') || 
-           lower.includes('rv') || 
-           lower.includes('trailer') || 
-           lower.includes('site') ||
-           lower === 'scenary' ||
-           lower === 'extra' ||
-           lower === 'office';
+    // Only match strictly "Cabin" or "Site"
+    return lower.includes('cabin') || lower.includes('site');
 };
 
 const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif']);
