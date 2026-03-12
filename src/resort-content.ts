@@ -92,16 +92,10 @@ export const resortContent = {
         titleItalic: "Cabin",
         items: [
             {
-                title: "Golf Cart Rentals",
-                description: "Explore the resort grounds in comfort with our fleet of modern electric carts.",
-                image: "/tbaygolfcartrental.jpg",
-                span: "md:col-span-2 md:row-span-2",
-            },
-            {
                 title: "The Pavilion",
                 description: "Our expansive community pavilion, perfect for gatherings with stunning lake views.",
                 image: "/tbaypavillionpic.jpg",
-                span: "md:col-span-1 md:row-span-1",
+                span: "md:col-span-2 md:row-span-1",
             },
             {
                 title: "Waterfront Access",
@@ -110,16 +104,16 @@ export const resortContent = {
                 span: "md:col-span-1 md:row-span-1",
             },
             {
-                title: "Fishing Area",
-                description: "Designated safe areas for world-class fishing with lake views and easy access.",
-                image: "/tbaywaterpic1.jpg",
-                span: "md:col-span-2 md:row-span-1",
-            },
-            {
                 title: "Swimming Pool",
                 description: "Cool off in our beautiful resort pool area with comfortable lounging.",
                 image: "/tbayswimmingpool.jpg",
                 span: "md:col-span-1 md:row-span-1",
+            },
+            {
+                title: "Fishing Area",
+                description: "Designated safe areas for world-class fishing with lake views and easy access.",
+                image: "/tbaywaterpic1.jpg",
+                span: "md:col-span-2 md:row-span-1",
             }
         ]
     },

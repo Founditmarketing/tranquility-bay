@@ -5,7 +5,7 @@ export default function Amenities() {
   const { amenities } = resortContent;
 
   return (
-    <section id="rentals" className="py-24 bg-resort-black text-white px-4 md:px-8">
+    <section id="amenities" className="py-24 bg-resort-black text-white px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 md:mb-12 text-center md:text-left">
           <span className="mb-4 block font-sans text-sm font-bold tracking-[0.2em] text-resort-gold uppercase">
