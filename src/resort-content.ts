@@ -130,7 +130,7 @@ export const resortContent = {
             "Paved Boat Launch",
             "Fish Cleaning Stations & MORE"
         ],
-        heroImage: "https://images.unsplash.com/photo-1542718610-a1a65667a9a9?q=80&w=2070&auto=format&fit=crop", // Using a scenic unsplash image as a placeholder for the hero section
+        heroImage: "/OFFICE/4-2.jpg",
         secondaryImage: "/tbaycabins.jpg"
     },
     footer: {
