@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { resortContent } from "../resort-content";
 
 const Card = ({ item }: { item: typeof resortContent.accommodations.items[0] }) => {
@@ -54,6 +56,17 @@ const Card = ({ item }: { item: typeof resortContent.accommodations.items[0] }) 
 
 export default function Accommodations() {
   const { accommodations } = resortContent;
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollByCard = (direction: 'left' | 'right') => {
+    if (!scrollRef.current) return;
+    // Calculate approximate card width + gap based on breakpoints
+    const scrollAmount = window.innerWidth < 768 ? window.innerWidth * 0.82 + 32 : 450 + 64;
+    scrollRef.current.scrollBy({ 
+      left: direction === 'left' ? -scrollAmount : scrollAmount, 
+      behavior: 'smooth' 
+    });
+  };
 
   return (
     <section id="stay" className="relative bg-resort-mist py-24 px-6 md:px-12 overflow-hidden">
@@ -78,10 +91,31 @@ export default function Accommodations() {
               className="w-[280px] h-auto object-contain pointer-events-none opacity-40"
             />
           </div>
+
+          {/* Scroll Controls */}
+          <div className="mt-8 flex gap-4">
+            <button 
+              onClick={() => scrollByCard('left')}
+              className="p-3 rounded-full border border-resort-black/20 hover:bg-resort-black hover:text-white transition-colors text-resort-black"
+              aria-label="Scroll Left"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button 
+              onClick={() => scrollByCard('right')}
+              className="p-3 rounded-full border border-resort-black/20 hover:bg-resort-black hover:text-white transition-colors text-resort-black"
+              aria-label="Scroll Right"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
         </div>
 
         {/* Native Horizontal Scroll Track */}
-        <div className="flex-1 w-full bg-transparent overflow-x-auto snap-x snap-mandatory flex gap-6 md:gap-8 pb-8 hide-scrollbar">
+        <div 
+          ref={scrollRef}
+          className="flex-1 w-full bg-transparent overflow-x-auto snap-x snap-mandatory flex gap-6 md:gap-8 pb-8 hide-scrollbar"
+        >
           {accommodations.items.map((item) => (
             <motion.div 
                key={item.id} 
