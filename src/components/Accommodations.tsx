@@ -1,5 +1,4 @@
-import { motion, useTransform, useScroll } from "motion/react";
-import { useRef } from "react";
+import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { resortContent } from "../resort-content";
 
@@ -55,80 +54,63 @@ const Card = ({ item }: { item: typeof resortContent.accommodations.items[0] }) 
 
 export default function Accommodations() {
   const { accommodations } = resortContent;
-  const targetRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  });
-
-  // Calculate precise translation for mobile centering
-  // For mobile: 3 items, 82vw width, gap-8 (32px), pl-[9vw] centers first card.
-  // We need to move exactly -(82vw + 32px) for each subsequent card.
-  const xResponsive = useTransform(scrollYProgress, (latest) => {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    if (isMobile) {
-      const cardWidth = window.innerWidth * 0.82;
-      const gap = 32;
-      const totalMove = (cardWidth + gap) * 3;
-      return `-${latest * totalMove}px`;
-    }
-    // Desktop: 4 items total, pl-[40vw], move enough to get through them
-    return `${1 - latest * 56}%`;
-  });
-
-  const logoOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-  // Header fades out as horizontal scroll begins
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
 
   return (
-    <section ref={targetRef} id="stay" className="relative h-[200vh] md:h-[300vh] bg-resort-mist">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-
+    <section id="stay" className="relative bg-resort-mist py-24 px-6 md:px-12 overflow-hidden">
+      <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-start gap-12 md:gap-20">
+        
         {/* Section Header */}
-        <motion.div
-          style={{ opacity: headerOpacity }}
-          className="absolute left-8 top-10 z-10 max-w-2xl md:left-20 md:top-28"
-        >
-          <h2 className="font-serif text-5xl text-resort-black md:text-7xl whitespace-nowrap">
-            {accommodations.sectionTitle} <span className="italic text-resort-green">{accommodations.sectionSubtitle}</span>
+        <div className="flex-shrink-0 md:w-1/3 md:sticky md:top-32 z-10 pt-10">
+          <h2 className="font-serif text-5xl text-resort-black md:text-7xl">
+            {accommodations.sectionTitle} <br className="hidden md:block" /><span className="italic text-resort-green">{accommodations.sectionSubtitle}</span>
           </h2>
-          {/* Responsive Descriptions */}
-          <p className="mt-1 font-sans text-resort-black/60 text-sm md:hidden">
-            {accommodations.description}
-          </p>
-          <p className="hidden md:block mt-4 font-sans text-resort-black/60 text-lg pr-24">
+          
+           {/* Responsive Descriptions */}
+           <p className="mt-4 font-sans text-resort-black/60 text-lg">
             {/* @ts-ignore - Adding descriptionDesktop to resort-content later */}
             {accommodations.descriptionDesktop || accommodations.description}
           </p>
 
-          {/* Floating Logo - Fades as well since it's inside or via logoOpacity */}
-          <motion.div
-            style={{ opacity: logoOpacity }}
-            className="mt-8 md:mt-12 hidden md:block"
-          >
+          <div className="mt-12 hidden md:block">
             <img
               src="/tbaytransparentlogo.png"
               alt="Resort Logo Accent"
-              className="w-[280px] md:w-[500px] h-auto object-contain pointer-events-none"
+              className="w-[280px] h-auto object-contain pointer-events-none opacity-40"
             />
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        {/* Horizontal Moving Track */}
-        <motion.div style={{ x: xResponsive }} className="flex gap-8 pl-[9vw] md:gap-16 md:pl-[40vw]">
+        {/* Native Horizontal Scroll Track */}
+        <div className="flex-1 w-full bg-transparent overflow-x-auto snap-x snap-mandatory flex gap-6 md:gap-8 pb-8 hide-scrollbar">
           {accommodations.items.map((item) => (
-            <Card key={item.id} item={item} />
+            <motion.div 
+               key={item.id} 
+               className="snap-start shrink-0"
+               initial={{ opacity: 0, x: 20 }}
+               whileInView={{ opacity: 1, x: 0 }}
+               viewport={{ once: true, margin: "0px 100px 0px 0px" }}
+               transition={{ duration: 0.5 }}
+            >
+               <Card item={item} />
+            </motion.div>
           ))}
 
-          {/* CTA Card at the end - Hidden on mobile */}
-          <div className="hidden md:flex relative h-[450px] w-[300px] flex-shrink-0 flex-col items-center justify-center overflow-hidden md:h-[600px] md:w-[450px]">
+          {/* CTA Card at the end */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="snap-start relative h-[500px] w-[82vw] md:h-[600px] md:w-[450px] flex-shrink-0 flex-col items-center justify-center overflow-hidden"
+          >
             <img
               src="/tbaywaterpic2.jpg"
               alt="Ready to Book"
               className="absolute inset-0 h-full w-full object-cover"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-resort-black/90" />
-            <div className="relative z-10 flex flex-col items-center justify-center p-8 text-center">
+            <div className="absolute inset-0 bg-resort-black/80" />
+            <div className="relative z-10 flex flex-col items-center justify-center p-8 text-center h-full">
               <span className="mb-2 block font-sans text-xs font-bold tracking-[0.2em] text-resort-gold uppercase">
                 Reservations
               </span>
@@ -144,18 +126,20 @@ export default function Accommodations() {
                 Reserve Now
               </a>
             </div>
-          </div>
-        </motion.div>
-
-        {/* Mobile Logo Accent - Positioned at bottom to fill gap */}
-        <div className="md:hidden absolute bottom-4 left-0 right-0 z-10 flex justify-center px-8">
-          <img
-            src="/tbaytransparentlogo.png"
-            alt="Resort Logo Accent"
-            className="w-[160px] h-auto object-contain pointer-events-none"
-          />
+          </motion.div>
         </div>
+
       </div>
+      {/* Inject minimal style to hide scrollbar but keep functionality */}
+      <style dangerouslySetInnerHTML={{ __html: `
+          .hide-scrollbar::-webkit-scrollbar {
+              display: none;
+          }
+          .hide-scrollbar {
+              -ms-overflow-style: none;
+              scrollbar-width: none;
+          }
+      `}} />
     </section>
   );
 }
